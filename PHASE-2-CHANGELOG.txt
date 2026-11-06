@@ -1,0 +1,18 @@
+TEKVANZA — Phase 2: Professional Design Upgrade
+
+Completed in this package:
+1. Reworked the homepage hero into a clear two-column corporate layout.
+2. Replaced broad/abstract hero messaging with specific IT infrastructure and security positioning for businesses.
+3. Changed the primary conversion action to Book a Free Site Visit.
+4. Used an existing project image from the supplied website assets in the hero and About section; no stock or fabricated project imagery was introduced.
+5. Added Firewall & Cybersecurity as a dedicated service card.
+6. Added a contact action to each service card.
+7. Refined the Projects page introduction and added a relevant inquiry action to each project card.
+8. Improved visual hierarchy, image treatment, responsive layouts, and reduced-motion handling.
+9. Kept the existing HTML/CSS/JavaScript stack and bilingual data-en/data-ar content approach.
+
+Important before publishing:
+- Confirm that every displayed project image and project description may be presented publicly as TEKVANZA work.
+- Replace current project imagery with higher-resolution approved site photos when available.
+- Test on actual iOS/Android devices and common desktop browsers after deployment.
+- This package does not change the form providers, email routing, or hosting configuration from Phase 1.

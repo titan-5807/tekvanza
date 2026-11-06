@@ -1,0 +1,22 @@
+TEKVANZA — Careers page setup (current implementation)
+======================================================
+
+The Careers page accepts open applications year-round, including when no
+vacancy is advertised.
+
+How applicants apply:
+1. Open careers.html.
+2. Select "Email Your CV".
+3. Their email application opens addressed to info@tekvanza.com.
+4. They must attach their CV manually before sending.
+
+Important:
+- There is no careers web form or automated CV upload.
+- No Formspree Careers endpoint is required.
+- The applicant's email client must be configured to send email.
+- The email address and open-application process were confirmed by the owner.
+
+Before launch:
+- Test the mailto link on desktop and mobile.
+- Confirm info@tekvanza.com can receive attachments.
+- Review the Privacy Policy against actual CV access and retention practices.

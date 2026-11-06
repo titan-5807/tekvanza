@@ -1,0 +1,14 @@
+TEKVANZA – Phase 1 confirmations
+
+Confirmed by the site owner:
+- Contact form notifications should be delivered to info@tekvanza.com. The existing Formspree endpoint remains https://formspree.io/f/mljrgybl; verify its recipient in the Formspree dashboard and submit a live test before launch.
+- LinkedIn company profile: https://www.linkedin.com/company/tekvance-eg/
+- Careers accepts unsolicited/open applications year-round, even when no vacancy is listed. The page opens an email to info@tekvanza.com; applicants must attach their CV manually. This is not an automated upload form.
+- The existing GA4 property is NOT owned by TEKVANZA. GA4 tracking has therefore been removed/disabled on all site pages. Do not re-enable it until TEKVANZA has its own property and the required privacy/consent setup.
+
+Remaining launch checks:
+1. In Formspree, confirm the form mljrgybl is owned/controlled by TEKVANZA and its notification recipient is info@tekvanza.com.
+2. Submit a real test from the deployed contact page and confirm delivery.
+3. Test the Careers mailto link on desktop and mobile; attach a sample CV and confirm the message can be sent.
+4. Confirm the LinkedIn page is public and its current name/branding is appropriate. The profile URL contains the older spelling “tekvance”; the URL itself is kept exactly as supplied.
+5. Review the privacy notice against actual retention/access practices and applicable Egyptian requirements before treating it as a legal policy.

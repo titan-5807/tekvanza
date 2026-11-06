@@ -1,0 +1,29 @@
+TEKVANZA — HYBRID CORPORATE + SERVICES UPDATE
+
+WHAT CHANGED
+1. Added an Industries section for offices, factories/warehouses, retail/clinics/hospitality, and multi-site businesses.
+2. Added two clear engagement paths: new project design/implementation and maintenance/technical support.
+3. Added direct calls to action from industry cards and maintenance to the contact form / WhatsApp.
+4. Added Industries to the main navigation and footer quick links.
+5. Replaced unsupported-looking hero counters (including a 24/7 support claim) with business-focused proof points.
+6. Replaced trust-strip claims that implied certifications, 24/7 availability, and blanket installation warranty with capability/process statements.
+7. Removed the wording that described the installation team as certified unless certifications are confirmed.
+8. Added responsive styling for the new sections and RTL alignment for Arabic.
+
+VALIDATION PERFORMED
+- HTML parsed successfully.
+- No duplicate HTML IDs found in index.html.
+- No missing local references found in index.html.
+- Existing JavaScript syntax check passed with Node.js.
+
+BEFORE PUBLIC LAUNCH — BUSINESS OWNER VERIFICATION REQUIRED
+- Confirm that every testimonial is from a real customer and that the named person/company approved publication. Remove any sample/demo testimonials.
+- Confirm that partner/vendor logos reflect genuine reseller, partner, or deployment relationships; otherwise label the area as technologies/brands we work with, where accurate.
+- Confirm actual warranty terms, service coverage, response times, maintenance scope, and project delivery statements.
+- Submit test inquiries through the contact form and verify delivery to the correct company inbox.
+- Test the careers form and confirm its destination inbox/service.
+- Confirm Google Analytics property ownership and privacy/cookie requirements.
+- Replace GitHub Pages canonical URLs with the production domain after the domain is connected.
+- Test English and Arabic on real Android/iPhone devices and desktop browsers.
+
+The update intentionally does not invent project statistics, certifications, or service-level guarantees.

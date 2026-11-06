@@ -1,0 +1,34 @@
+TEKVANZA — Phase 1 launch-critical changes
+==========================================
+
+Implemented in this package
+----------------------------
+- Removed unverified customer testimonial quotes and named endorsements from the public homepage. Re-add only after obtaining approval and confirming the exact wording.
+- Removed unsupported "certified team" claims from the implementation process and careers page.
+- Renamed the technology logo area to "Technologies & Brands We Work With" to avoid implying formal partnership or certification status.
+- Removed the dead LinkedIn placeholder links. Add the real company profile URL when it exists.
+- Replaced the Careers form containing YOUR_CAREERS_FORM_ID with a clear email application route. The website no longer pretends that a non-configured form can accept CVs.
+- Added a bilingual Privacy Policy page that discloses the current Formspree contact-form processor and email-based CV submission. It is a draft summary and must be checked against actual data practices and Egyptian legal requirements.
+- Added a Formspree _gotcha honeypot field to the contact form. Confirm spam filtering is enabled/working in the Formspree dashboard.
+- Disabled Google Analytics until ownership of G-B34705NFQ9 and a suitable privacy/consent setup are confirmed.
+- Removed unverified opening hours and priceRange from JSON-LD structured data.
+- Added Privacy Policy links and included the page in sitemap.xml.
+- Removed an unused 5-byte invalid file from assets/partners/kj.
+
+Still requires owner action / live verification
+-----------------------------------------------
+1. Contact form: the current endpoint is https://formspree.io/f/mljrgybl. Submit a real test from the deployed website and confirm delivery to the intended inbox. Confirm the endpoint belongs to TEKVANZA and the correct recipient is configured.
+2. Formspree: verify account ownership, spam settings, retention, and provider privacy terms. The honeypot is a layer of protection, not a CAPTCHA or guarantee against spam.
+3. Careers: applications now go by email to info@tekvanza.com. Confirm this inbox is monitored and update the page when real vacancies and a working application workflow are ready.
+4. Business facts: verify phone +20 10 0007 3642, info@tekvanza.com, Alexandria service area, and all social links.
+5. Privacy: have the draft reviewed against actual practices and applicable Egyptian requirements before treating it as a final legal policy.
+6. Analytics: only re-enable GA4 after confirming property ownership and deciding the required notice/consent approach.
+7. Testimonials: collect written approval and verify identity, wording, and any company attribution before restoring testimonials.
+8. Technologies/brands: keep only brands/equipment ecosystems TEKVANZA genuinely works with; do not imply reseller, partner, or certification status without evidence.
+
+Technical note
+--------------
+This is a static GitHub Pages site. GitHub Pages does not execute PHP. Contact form delivery depends on the external Formspree service.
+
+
+UPDATE 2026-11-06: Owner confirmed LinkedIn profile https://www.linkedin.com/company/tekvance-eg/ and contact Formspree notifications should go to info@tekvanza.com. Careers accepts open applications year-round; candidates email and attach CV manually. GA4 property is not owned by TEKVANZA, so tracking must remain disabled on every page. See PHASE-1-CONFIRMATIONS.txt.

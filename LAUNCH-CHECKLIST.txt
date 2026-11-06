@@ -1,0 +1,39 @@
+TEKVANZA — Final launch checklist
+=================================
+
+Verified in the supplied release package
+-----------------------------------------
+- Homepage, Projects, Careers, Privacy Policy and 404 pages are present.
+- Local href/src references resolve to files included in this package.
+- No duplicate HTML IDs were found.
+- All image elements have alt attributes.
+- Contact form points to the existing Formspree endpoint:
+  https://formspree.io/f/mljrgybl
+- Contact form includes a Formspree-compatible _gotcha honeypot field.
+- Careers uses a mailto link to info@tekvanza.com; applicants attach CVs manually.
+- No active Google Analytics / gtag / Google Tag Manager script is included.
+- Canonical, Open Graph, Twitter and sitemap URLs target the current GitHub Pages URL.
+- Sitemap XML and manifest JSON parse successfully.
+- JavaScript syntax check passes.
+
+Must be tested after deployment
+-------------------------------
+1. Submit a real contact-form test and confirm delivery to info@tekvanza.com
+   in the Formspree dashboard/inbox. The HTML endpoint alone does not prove
+   the notification recipient is configured correctly.
+2. Test the Careers mailto link on desktop and mobile, including a manual CV
+   attachment. A mailto link cannot send an attachment automatically.
+3. Confirm the displayed phone number, working hours, free site visit offer,
+   service area, warranties and all project images/claims are accurate.
+4. Confirm permission to publish every project photo and any client/company name.
+5. Verify the GitHub Pages deployment and all image URLs after publishing.
+6. Verify the site in Google Search Console and submit sitemap.xml.
+7. Review Privacy Policy against actual data access, retention and applicable
+   Egyptian legal requirements before treating it as legal advice.
+
+Deployment note
+---------------
+The currently connected GitHub repository contains an older revision and does
+not yet contain all image assets referenced by this package. Do not deploy only
+the HTML/CSS/JS files. Upload the complete package (including assets/) together,
+then test the deployed site.
