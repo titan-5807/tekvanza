@@ -45,15 +45,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const burger = document.getElementById('burger');
     const nav = document.getElementById('mainNav');
     if (burger && nav) {
+      burger.setAttribute('aria-controls', 'mainNav');
+      burger.setAttribute('aria-expanded', 'false');
+      nav.setAttribute('aria-label', isAr() ? 'القائمة الرئيسية' : 'Main navigation');
+      const closeMenu = () => {
+        burger.classList.remove('open');
+        nav.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      };
       burger.addEventListener('click', () => {
-        burger.classList.toggle('open');
-        nav.classList.toggle('open');
+        const isOpen = burger.classList.toggle('open');
+        nav.classList.toggle('open', isOpen);
+        burger.setAttribute('aria-expanded', String(isOpen));
       });
-      nav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          burger.classList.remove('open');
-          nav.classList.remove('open');
-        });
+      nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && nav.classList.contains('open')) {
+          closeMenu();
+          burger.focus();
+        }
       });
     }
   } catch (err) { console.error('Mobile menu error:', err); }
@@ -432,192 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   } catch (err) { console.error('Contact form error:', err); }
 
-  /* ==========================================================
-     Careers page — CV upload widget (drag & drop UX + validation)
-     ========================================================== */
-  try {
-    const fileUpload = document.getElementById('cvFileUpload');
-    const fileInput = document.getElementById('cvFileInput');
-    const fileNameDisplay = document.getElementById('cvFileName');
-    const fileError = document.getElementById('cvFileError');
-    if (fileUpload && fileInput) {
-      const MAX_SIZE = 5 * 1024 * 1024;
-      const ALLOWED_EXT = ['pdf', 'doc', 'docx'];
-
-      function validateFile(file) {
-        if (!file) return null;
-        const ext = file.name.split('.').pop().toLowerCase();
-        if (!ALLOWED_EXT.includes(ext)) {
-          return isAr() ? '⚠️ الملف لازم يكون بصيغة PDF أو Word فقط.' : '⚠️ File must be a PDF or Word document.';
-        }
-        if (file.size > MAX_SIZE) {
-          return isAr() ? '⚠️ حجم الملف أكبر من 5 ميجا، اختار ملف أصغر.' : '⚠️ File is larger than 5 MB. Please choose a smaller file.';
-        }
-        return null;
-      }
-
-      function handleFile(file) {
-        const errMsg = validateFile(file);
-        if (errMsg) {
-          if (fileError) fileError.textContent = errMsg;
-          if (fileNameDisplay) fileNameDisplay.textContent = '';
-          fileUpload.classList.add('is-invalid-upload');
-          return false;
-        }
-        if (fileError) fileError.textContent = '';
-        if (fileNameDisplay) fileNameDisplay.textContent = file ? file.name : '';
-        fileUpload.classList.remove('is-invalid-upload');
-        return true;
-      }
-
-      fileInput.addEventListener('change', () => {
-        const file = fileInput.files && fileInput.files[0];
-        handleFile(file);
-      });
-
-      ['dragenter', 'dragover'].forEach(evt => {
-        fileUpload.addEventListener(evt, (e) => { e.preventDefault(); fileUpload.classList.add('drag-over'); });
-      });
-      ['dragleave', 'drop'].forEach(evt => {
-        fileUpload.addEventListener(evt, (e) => { e.preventDefault(); fileUpload.classList.remove('drag-over'); });
-      });
-      fileUpload.addEventListener('drop', (e) => {
-        const dropped = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-        if (dropped) { fileInput.files = e.dataTransfer.files; handleFile(dropped); }
-      });
-    }
-  } catch (err) { console.error('CV upload widget error:', err); }
-
-  /* ==========================================================
-     Careers page — application form: real-time validation
-     + submit -> Formspree (AJAX, with file)
-     ========================================================== */
-  try {
-    const careerForm = document.getElementById('careerForm');
-    const careerNote = document.getElementById('careerFormNote');
-    const careerSubmitBtn = document.getElementById('careerSubmitBtn');
-    const careerNameInput = document.getElementById('careerNameInput');
-    const careerNameError = document.getElementById('careerNameError');
-    const careerEmailInput = document.getElementById('careerEmailInput');
-    const careerEmailError = document.getElementById('careerEmailError');
-    const careerCountryCode = document.getElementById('careerCountryCode');
-    const careerPhoneInput = document.getElementById('careerPhoneInput');
-    const careerPhoneError = document.getElementById('careerPhoneError');
-    const careerPhoneFull = document.getElementById('careerPhoneFull');
-    const careerPositionSelect = document.getElementById('careerPositionSelect');
-    const careerPositionError = document.getElementById('careerPositionError');
-    const careerConsent = document.getElementById('careerConsentInput');
-    const careerConsentError = document.getElementById('careerConsentError');
-    const cvFileInput = document.getElementById('cvFileInput');
-    const cvFileError = document.getElementById('cvFileError');
-    const cvFileUpload = document.getElementById('cvFileUpload');
-
-    function syncCareerPhone() {
-      if (!careerCountryCode || !careerPhoneInput || !careerPhoneFull) return;
-      const code = careerCountryCode.value;
-      const digits = careerPhoneInput.value.replace(/\D/g, '');
-      careerPhoneFull.value = digits ? `+${code}${digits}` : '';
-    }
-
-    if (careerForm) {
-      if (careerNameInput) {
-        careerNameInput.addEventListener('input', () => Validation.validateName(careerNameInput, careerNameError));
-        careerNameInput.addEventListener('blur', () => Validation.validateName(careerNameInput, careerNameError));
-      }
-      if (careerEmailInput) {
-        careerEmailInput.addEventListener('input', () => Validation.validateEmail(careerEmailInput, careerEmailError));
-        careerEmailInput.addEventListener('blur', () => Validation.validateEmail(careerEmailInput, careerEmailError));
-      }
-      if (careerPhoneInput) {
-        careerPhoneInput.addEventListener('input', () => { Validation.validatePhone(careerPhoneInput, careerPhoneError, careerCountryCode); syncCareerPhone(); });
-        careerPhoneInput.addEventListener('blur', () => Validation.validatePhone(careerPhoneInput, careerPhoneError, careerCountryCode));
-      }
-      if (careerCountryCode) {
-        careerCountryCode.addEventListener('change', () => {
-          syncCareerPhone();
-          if (careerPhoneInput && careerPhoneInput.value) Validation.validatePhone(careerPhoneInput, careerPhoneError, careerCountryCode);
-        });
-      }
-      if (careerPositionSelect) {
-        careerPositionSelect.addEventListener('change', () => Validation.validateSelectRequired(careerPositionSelect, careerPositionError));
-      }
-      if (careerConsent) {
-        careerConsent.addEventListener('change', () => {
-          if (careerConsent.checked && careerConsentError) careerConsentError.textContent = '';
-        });
-      }
-
-      careerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        syncCareerPhone();
-
-        let valid = true;
-        if (careerNameInput && !Validation.validateName(careerNameInput, careerNameError)) { valid = false; Validation.shake(careerNameInput); }
-        if (careerEmailInput && !Validation.validateEmail(careerEmailInput, careerEmailError)) { valid = false; Validation.shake(careerEmailInput); }
-        if (careerPhoneInput && !Validation.validatePhone(careerPhoneInput, careerPhoneError, careerCountryCode)) { valid = false; Validation.shake(careerPhoneInput); }
-        if (careerPositionSelect && !Validation.validateSelectRequired(careerPositionSelect, careerPositionError)) { valid = false; Validation.shake(careerPositionSelect); }
-
-        const file = cvFileInput && cvFileInput.files && cvFileInput.files[0];
-        if (!file) {
-          valid = false;
-          if (cvFileError) cvFileError.textContent = isAr() ? '⚠️ برجاء إرفاق سيرتك الذاتية.' : '⚠️ Please attach your CV.';
-          if (cvFileUpload) { cvFileUpload.classList.add('is-invalid-upload'); Validation.shake(cvFileUpload); }
-        }
-
-        if (careerConsent && !careerConsent.checked) {
-          valid = false;
-          if (careerConsentError) careerConsentError.textContent = isAr() ? '⚠️ لازم توافق على معالجة بياناتك للمتابعة.' : '⚠️ Please agree to the data processing terms to continue.';
-        }
-
-        if (!valid) {
-          if (careerNote) {
-            careerNote.textContent = isAr() ? '⚠️ برجاء تصحيح الحقول المظللة قبل إرسال الطلب.' : '⚠️ Please correct the highlighted fields before submitting.';
-            careerNote.className = 'form-note error';
-          }
-          const firstInvalid = careerForm.querySelector('.is-invalid');
-          if (firstInvalid) firstInvalid.focus();
-          return;
-        }
-
-        if (!careerNote || !careerSubmitBtn) return;
-        const endpoint = careerForm.getAttribute('action');
-        if (!endpoint || endpoint.includes('YOUR_CAREERS_FORM_ID')) {
-          careerNote.textContent = isAr() ? '⚠️ لسه محتاج تحط رابط Formspree الخاص بصفحة الوظائف في الكود (action attribute).' : '⚠️ Please set your Formspree endpoint for the careers form in the action attribute.';
-          careerNote.className = 'form-note error';
-          return;
-        }
-
-        careerSubmitBtn.disabled = true;
-        const originalLabel = careerSubmitBtn.textContent;
-        careerSubmitBtn.textContent = isAr() ? 'جارٍ الإرسال...' : 'Sending...';
-        try {
-          const formData = new FormData(careerForm);
-          const response = await fetch(endpoint, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
-          if (response.ok) {
-            careerNote.textContent = isAr() ? '✅ تم استلام طلبك بنجاح، هنراجعه ونتواصل معك لو كنت مناسب للوظيفة.' : '✅ Your application has been received. We will review it and contact you if there is a match.';
-            careerNote.className = 'form-note success';
-            careerForm.reset();
-            if (document.getElementById('cvFileName')) document.getElementById('cvFileName').textContent = '';
-            if (careerNameInput) Validation.clearState(careerNameInput, careerNameError);
-            if (careerEmailInput) Validation.clearState(careerEmailInput, careerEmailError);
-            if (careerPhoneInput) Validation.clearState(careerPhoneInput, careerPhoneError);
-            if (careerPositionSelect) Validation.clearState(careerPositionSelect, careerPositionError);
-            if (cvFileUpload) cvFileUpload.classList.remove('is-invalid-upload');
-          } else {
-            throw new Error('Submission failed with status ' + response.status);
-          }
-        } catch (err) {
-          console.error('Career form submission error:', err);
-          careerNote.textContent = isAr() ? '❌ حدث خطأ أثناء إرسال طلبك، برجاء المحاولة مرة أخرى أو إرسال سيرتك الذاتية بالإيميل مباشرة.' : '❌ Something went wrong while sending your application. Please try again or email your CV directly.';
-          careerNote.className = 'form-note error';
-        } finally {
-          careerSubmitBtn.disabled = false;
-          careerSubmitBtn.textContent = originalLabel;
-          setTimeout(() => { careerNote.textContent = ''; careerNote.className = 'form-note'; }, 8000);
-        }
-      });
-    }
-  } catch (err) { console.error('Career form error:', err); }
+  /* Careers submissions use the mailto link on careers.html; no upload form is configured. */
 
   /* ---------- Animated network canvas (hero) ---------- */
   try {
@@ -665,100 +490,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   } catch (err) { console.error('Network canvas error:', err); }
 
-  /* ==========================================================
-     Partners carousel — directional hover scroll
-     - Mouse on the right side of the strip  -> scrolls right
-     - Mouse on the left side of the strip   -> scrolls left
-     - Mouse resting exactly on a company name/icon -> pauses
-     - Mouse outside the strip -> gentle idle auto-scroll (left)
-
-     NOTE: this element's position is driven ENTIRELY by this script,
-     via `track.style.transform`. Do not add a CSS `animation` on
-     `.partners-track` anywhere — a competing CSS animation would
-     overwrite the transform every frame and make the strip ignore
-     the mouse position completely (this exact bug happened before).
-     ========================================================== */
-  try {
-    // Prefer explicit IDs (added to the HTML) so this never silently
-    // fails to find the right elements due to a class name mismatch.
-    const carousel = document.getElementById('partnersCarousel') || document.querySelector('.partners-carousel');
-    const track = document.getElementById('partnersTrack') || document.querySelector('.partners-track');
-
-    if (!carousel || !track) {
-      // Nothing to do on pages without a partners carousel (e.g. careers.html)
-    } else {
-      // Make 100% sure no leftover CSS animation is fighting with us.
-      track.style.animation = 'none';
-
-      const prefersReducedMotion = window.matchMedia &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if (prefersReducedMotion) {
-        track.style.transform = 'translateX(0)';
-      } else {
-        const IDLE_SPEED = -0.35;  // px/frame when the mouse is away (slow drift, left)
-        const MAX_SPEED = 2.6;     // px/frame at the far edges of the strip
-        const EASE = 0.07;         // how quickly speed catches up to target (0-1)
-
-        let posX = 0;
-        let speed = IDLE_SPEED;
-        let targetSpeed = IDLE_SPEED;
-        let halfWidth = 0;
-        let rect = carousel.getBoundingClientRect();
-
-        function measure() {
-          // The track's HTML contains the full sequence duplicated once,
-          // so half of its scrollWidth equals exactly one full sequence.
-          halfWidth = track.scrollWidth / 2;
-          rect = carousel.getBoundingClientRect();
-        }
-        measure();
-        // Re-measure on resize and shortly after load, in case webfonts
-        // change the rendered width of the item names after first paint.
-        window.addEventListener('resize', measure);
-        window.addEventListener('load', () => setTimeout(measure, 300));
-        setTimeout(measure, 500);
-        setTimeout(measure, 1500);
-
-        function speedFromClientX(clientX) {
-          if (!rect.width) rect = carousel.getBoundingClientRect();
-          const relX = (clientX - rect.left) / rect.width; // 0 (left edge) .. 1 (right edge)
-          const clamped = Math.min(1, Math.max(0, relX));
-          // Map 0..1 to -MAX_SPEED..+MAX_SPEED (0.5 = center = ~0 speed)
-          return (clamped - 0.5) * 2 * MAX_SPEED;
-        }
-
-        function onMove(clientX, targetEl) {
-          const onItem = targetEl && targetEl.closest && targetEl.closest('.partner-item');
-          targetSpeed = onItem ? 0 : speedFromClientX(clientX);
-        }
-
-        carousel.addEventListener('mousemove', (e) => onMove(e.clientX, e.target));
-        carousel.addEventListener('mouseenter', (e) => { rect = carousel.getBoundingClientRect(); onMove(e.clientX, e.target); });
-        carousel.addEventListener('mouseleave', () => { targetSpeed = IDLE_SPEED; });
-
-        // Basic touch support: pause while touching, resume gently after.
-        carousel.addEventListener('touchstart', () => { targetSpeed = 0; }, { passive: true });
-        carousel.addEventListener('touchend', () => { targetSpeed = IDLE_SPEED; }, { passive: true });
-        carousel.addEventListener('touchcancel', () => { targetSpeed = IDLE_SPEED; }, { passive: true });
-
-        function tick() {
-          speed += (targetSpeed - speed) * EASE;
-          posX += speed;
-          if (halfWidth > 0) {
-            // Content repeats every `halfWidth` px, so wrapping by exactly
-            // that amount (in either direction) is visually seamless and
-            // keeps posX within a bounded range regardless of scroll
-            // direction (this is what makes BOTH directions work forever).
-            if (posX <= -halfWidth) posX += halfWidth;
-            if (posX > 0) posX -= halfWidth;
-          }
-          track.style.transform = `translateX(${posX}px)`;
-          requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-      }
-    }
-  } catch (err) { console.error('Partners carousel error:', err); }
+  /* Technology list is static; no carousel animation is required. */
 
 });
