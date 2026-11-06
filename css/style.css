@@ -660,3 +660,35 @@ html[dir="rtl"] .hero-visual-caption>div{text-align:right}
   html[dir="rtl"] .project-overlay{padding:18px}
   html[dir="rtl"] .hero-visual-caption{left:13px;right:13px}
 }
+
+
+/* Final fix: Arabic mobile header keeps the brand on the left
+   and language/menu controls on the right, matching the LTR header. */
+@media (max-width:768px){
+  html[dir="rtl"] .header-inner{
+    direction:ltr;
+    justify-content:space-between;
+    flex-direction:row;
+    gap:12px;
+  }
+  html[dir="rtl"] .header-inner>.brand{
+    direction:ltr;
+    flex:0 0 auto;
+    margin:0 auto 0 0;
+  }
+  html[dir="rtl"] .header-inner>.header-actions{
+    direction:rtl;
+    flex:0 0 auto;
+    margin:0 0 0 auto;
+    justify-content:flex-end;
+  }
+  html[dir="rtl"] .header .nav{
+    right:-100%;
+    left:auto;
+    transition:right .4s var(--ease);
+  }
+  html[dir="rtl"] .header .nav.open{
+    right:0;
+    left:auto;
+  }
+}
